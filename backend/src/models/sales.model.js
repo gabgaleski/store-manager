@@ -12,11 +12,14 @@ const getAllProducts = async () => {
 };
 
 const getProductById = async (id) => {
-    const [[product]] = await connection
-    .execute(`SELECT sp.product_id, sp.quantity, s.date
+    const [product] = await connection
+    .execute(
+`SELECT sp.product_id, sp.quantity, s.date
     FROM sales_products AS sp
     INNER JOIN sales AS s ON sp.sale_id = s.id
-    WHERE sp.product_id = ?`, [id]);
+    WHERE s.id = ?`, 
+    [id],
+    );
     return camelize(product);
 };
 

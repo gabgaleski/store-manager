@@ -7,7 +7,7 @@ const getAllProducts = async () => {
 
 const getProductById = async (id) => {
     const product = await salesModel.getProductById(id);
-    if (!product) return { status: 404, data: { message: 'Sale not found' } };
+    if (!product || product.length < 1) return { status: 404, data: { message: 'Sale not found' } };
     return { status: 200, data: product };
 };
 
