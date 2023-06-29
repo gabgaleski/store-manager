@@ -1,4 +1,5 @@
 const { productsModel } = require('../models');
+const { validateNameMiddleware } = require('./validation/validationInputsName');
 
 const getAllProducts = async () => {
     const products = await productsModel.getAllProducts();
@@ -12,7 +13,10 @@ const getProductById = async (id) => {
 };
 
 const createProduct = async (name) => {
+    const error = validateNameMiddleware(name);
+    if (error) return error;
     const product = await productsModel.createProduct(name);
+
     return { status: 201, data: product };
 };
 

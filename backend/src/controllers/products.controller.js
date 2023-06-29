@@ -13,7 +13,7 @@ const getProductById = async (req, res) => {
 };
 
 const createProduct = async (req, res) => {
-    const { name } = req.body;
+    const name = req.body;
     const { status, data } = await productsService.createProduct(name);
     return res.status(status).json(data);
 };
