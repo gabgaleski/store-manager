@@ -23,6 +23,14 @@ describe('Testa as funções de products', function () {
         expect(result).to.be.deep.equal(getById);
     });
 
+    it('Testa se é possivel criar um produto', async function () {
+        sinon.stub(connection, 'execute').resolves([{ insertId: 4 }]);
+        const name = 'Produto Teste';
+        const result = await productsModel.createProduct(name);
+
+        expect(result).to.be.an('object');
+    });
+
     afterEach(function () {
         sinon.restore();
       });
