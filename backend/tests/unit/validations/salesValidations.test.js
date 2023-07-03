@@ -49,6 +49,27 @@ describe('Testa as funções de validação da rota sales', function () {
         expect(res.json).to.have.been.calledWith({ message: '"quantity" is required' });
     });
 
+    it('Testando se o quantity é maior que 0', function () {
+        const req = {
+            body: [
+                {
+                    productId: 1,
+                    quantity: 0,
+                },
+            ],
+        };
+        const res = {
+            status: sinon.stub().returnsThis(),
+            json: sinon.stub(),
+        };
+        const next = sinon.stub();
+
+        validationSales.validateSales(req, res, next);
+
+        expect(res.status).to.have.been.calledWith(422);
+        expect(res.json).to.have.been.calledWith({ message: '"quantity" must be greater than or equal to 1' });
+    });
+
     afterEach(function () {
         sinon.restore();
       });
