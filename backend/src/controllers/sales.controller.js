@@ -8,8 +8,8 @@ const getAllProducts = async (_req, res) => {
 
 const getProductById = async (req, res) => {
     const { id } = req.params;
-    const { status, data } = await salesService.getProductById(id);
-    return res.status(status).json(data);
+    const resolves = await salesService.getProductById(id);
+    return res.status(resolves.status).json(resolves.data);
 };
 
 const createProduct = async (req, res) => {

@@ -32,7 +32,34 @@ const salesMock = [
     },
   ];
 
+  const registerSaleOutputMock = [
+    {
+      productId: 1,
+      quantity: 1,
+    },
+  ];
+
+  const registerErrorMockProductId = [
+    {
+      product: 1,
+      quantity: 1,
+    },
+  ];
+
+  const registerSaleInputMock = {
+    id: 3,
+    itemsSold: [
+      {
+        productId: 1,
+        quantity: 1,
+      },
+    ],
+  };
+
   module.exports = {
     salesMock,
     salesByIdMock,
+    registerSaleOutputMock,
+    registerSaleInputMock,
+    registerErrorMockProductId,
   };

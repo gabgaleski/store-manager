@@ -2,7 +2,7 @@ const { expect } = require('chai');
 const sinon = require('sinon');
 const connection = require('../../../src/models/connection');
 const { salesModel } = require('../../../src/models');
-const { salesMock, salesByIdMock } = require('../mocks/sales.mock');
+const { salesMock, salesByIdMock, registerSaleOutputMock } = require('../mocks/sales.mock');
 
 describe('Testa as funções de sales', function () {
     it('Testa se é possivel pegar todos os produtos', async function () {
@@ -21,6 +21,14 @@ describe('Testa as funções de sales', function () {
 
         expect(result).to.be.an('array');
         expect(result).to.be.deep.equal(salesByIdMock);
+    });
+
+    it('Testa se é possivel registrar uma venda', async function () {
+        sinon.stub(connection, 'execute').resolves([registerSaleOutputMock]);
+        const result = await salesModel.createProduct(3, 1, 1);
+
+        expect(result).to.be.an('object');
+        expect(result).to.be.deep.equal(registerSaleOutputMock[0]);
     });
 
     afterEach(function () {
