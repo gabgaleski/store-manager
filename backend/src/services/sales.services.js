@@ -11,7 +11,16 @@ const getProductById = async (id) => {
     return { status: 200, data: product };
 };
 
+const createProduct = async (arrObj) => {
+    const saleId = await salesModel.createSale();
+    const saveData = await Promise.all(arrObj.map((item) => salesModel
+    .createProduct(saleId, item.productId, item.quantity)));
+
+    return { status: 201, data: { id: saleId, itemsSold: saveData } };
+};
+
 module.exports = {
     getAllProducts,
     getProductById,
+    createProduct,
 };
