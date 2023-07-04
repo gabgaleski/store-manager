@@ -19,8 +19,14 @@ const createProduct = async (arrObj) => {
     return { status: 201, data: { id: saleId, itemsSold: saveData } };
 };
 
+const deleteProduct = async (id) => {
+    const product = await salesModel.deleteProduct(id);
+    return { status: 204, data: product };
+};
+
 module.exports = {
     getAllProducts,
     getProductById,
     createProduct,
+    deleteProduct,
 };
