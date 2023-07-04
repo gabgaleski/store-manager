@@ -31,6 +31,14 @@ describe('Testa as funções de sales', function () {
         expect(result).to.be.deep.equal(registerSaleOutputMock[0]);
     });
 
+    it('Testa se é possivel deletar uma venda', async function () {
+        sinon.stub(connection, 'execute').resolves([]);
+        const result = await salesModel.deleteProduct(1);
+
+        expect(result).to.be.an('object');
+        expect(result).to.be.deep.equal({});
+    });
+
     afterEach(function () {
         sinon.restore();
       });

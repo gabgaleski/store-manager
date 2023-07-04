@@ -3,6 +3,7 @@ const sinon = require('sinon');
 const chai = require('chai');
 const sinonChai = require('sinon-chai');
 const validationSales = require('../../../src/services/validation/validationSales');
+const { salesModel } = require('../../../src/models');
 
 chai.use(sinonChai);
 
@@ -68,6 +69,47 @@ describe('Testa as funções de validação da rota sales', function () {
 
         expect(res.status).to.have.been.calledWith(422);
         expect(res.json).to.have.been.calledWith({ message: '"quantity" must be greater than or equal to 1' });
+    });
+
+    it('Testa se da erro ao passar id invalido no post', async function () {
+        const req = {
+            body: [
+                {
+                    productId: 99,
+                    quantity: 1,
+                },
+            ],
+        };
+        const res = {
+            status: sinon.stub().returnsThis(),
+            json: sinon.stub(),
+        };
+        const next = sinon.stub();
+
+        sinon.stub(salesModel, 'getProductById').resolves(null);
+
+        await validationSales.validateProductId(req, res, next);
+
+        expect(res.status).to.have.been.calledWith(404);
+        expect(res.json).to.have.been.calledWith({ message: 'Product not found' });
+    });
+
+    it('Testa se da erro ao passar id invalido no delete', async function () {
+        const req = {
+            params: { id: 99 },
+        };
+        const res = {
+            status: sinon.stub().returnsThis(),
+            json: sinon.stub(),
+        };
+        const next = sinon.stub();
+
+        sinon.stub(salesModel, 'getProductById').resolves(null);
+
+        await validationSales.validateDeletedSale(req, res, next);
+
+        expect(res.status).to.have.been.calledWith(404);
+        expect(res.json).to.have.been.calledWith({ message: 'Sale not found' });
     });
 
     afterEach(function () {
