@@ -40,6 +40,14 @@ describe('Testa as funções de products', function () {
         expect(result).to.be.an('object');
     });
 
+    it('Testa se é possivel deletar um produto', async function () {
+        sinon.stub(connection, 'execute').resolves([{ name: 'Produto Teste' }]);
+        const id = 1;
+        const result = await productsModel.deleteProduct(id);
+
+        expect(result).to.be.an('object');
+    });
+
     afterEach(function () {
         sinon.restore();
       });

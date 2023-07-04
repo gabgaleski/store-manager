@@ -40,4 +40,8 @@ describe('Testa a validação de atualização de produtos', function () {
         expect(res.status).to.have.been.calledWith(422);
         expect(res.json).to.have.been.calledWith({ message: '"name" length must be at least 5 characters long' });
     });
+    
+    afterEach(function () {
+        sinon.restore();
+      });
 });

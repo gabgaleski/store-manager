@@ -38,6 +38,22 @@ describe('Testa a camada services', function () {
         expect(result.status).to.be.equal(422);
     });
 
+    it('Testa a função de atualizar produto', async function () {
+        sinon.stub(productsModel, 'updateProduct').resolves(outputCreateProduct);
+        const result = await productsService.updateProduct(1, inputCreateProduct);
+
+        expect(result.data).to.be.deep.equal(outputCreateProduct);
+        expect(result.status).to.be.equal(200);
+    });
+
+    it('Testa se é possivel deletar um produto', async function () {
+        sinon.stub(productsModel, 'deleteProduct').resolves(outputCreateProduct);
+        const result = await productsService.deleteProduct(1);
+
+        expect(result.data).to.be.deep.equal(outputCreateProduct);
+        expect(result.status).to.be.equal(204);
+    });
+
     afterEach(function () {
         sinon.restore();
       });
