@@ -31,6 +31,15 @@ describe('Testa as funções de products', function () {
         expect(result).to.be.an('object');
     });
 
+    it('Testa se é possivel atualizar um produto', async function () {
+        sinon.stub(connection, 'execute').resolves([{ name: 'Produto Teste' }]);
+        const id = 1;
+        const name = 'Produto Teste';
+        const result = await productsModel.updateProduct(id, name);
+
+        expect(result).to.be.an('object');
+    });
+
     afterEach(function () {
         sinon.restore();
       });
