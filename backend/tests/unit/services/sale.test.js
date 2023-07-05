@@ -47,6 +47,24 @@ describe('Testa as funções de products da camada Services', function () {
         expect(result.status).to.be.equal(201);
     });
 
+    it('Testa se é possivel deletar uma venda', async function () {
+        sinon.stub(salesModel, 'deleteProduct').resolves({});
+        const result = await salesService.deleteProduct(1);
+
+        expect(result).to.be.an('object');
+        expect(result.data).to.be.deep.equal({});
+        expect(result.status).to.be.equal(204);
+    });
+
+    it('Testa se é possivel dar update em quantity', async function () {
+        sinon.stub(salesModel, 'updateProductQuantity').resolves({});
+        const result = await salesService.updateProductQuantity(1, 1, { quantity: 2 });
+
+        expect(result).to.be.an('object');
+        expect(result.data).to.be.deep.equal({});
+        expect(result.status).to.be.equal(200);
+    });
+
     afterEach(function () {
         sinon.restore();
       });

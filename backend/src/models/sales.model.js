@@ -49,10 +49,37 @@ const deleteProduct = async (id) => {
     return {};
 };
 
+const getSaleData = async (id) => {
+    const [[saleData]] = await connection.execute(
+        'SELECT date FROM sales WHERE id = ?;',
+        [id],
+    );
+    return camelize(saleData.date);
+};
+
+const updateProductQuantity = async (saleId, productId, quantityObj) => {
+    const { quantity } = quantityObj;
+    await connection.execute(
+        'UPDATE sales_products SET quantity = ? WHERE sale_id = ? AND product_id = ?;',
+        [quantity, saleId, productId],
+    );
+
+    const saleData = await getSaleData(saleId);
+
+    return {
+        date: saleData,
+        productId: Number(productId),
+        quantity,
+        saleId: Number(saleId),
+    };
+};
+
 module.exports = {
   getAllProducts,
   getProductById,
   createSale,
   createProduct,
   deleteProduct,
+  updateProductQuantity,
+  getSaleData,
 };

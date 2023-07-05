@@ -24,9 +24,15 @@ const deleteProduct = async (id) => {
     return { status: 204, data: product };
 };
 
+const updateProductQuantity = async (saleId, productId, quantityObj) => {
+    const update = await salesModel.updateProductQuantity(saleId, productId, quantityObj);
+    return { status: 200, data: update };
+};
+
 module.exports = {
     getAllProducts,
     getProductById,
     createProduct,
     deleteProduct,
+    updateProductQuantity,
 };

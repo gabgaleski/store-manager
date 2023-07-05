@@ -112,6 +112,48 @@ describe('Testa as funções de validação da rota sales', function () {
         expect(res.json).to.have.been.calledWith({ message: 'Sale not found' });
     });
 
+    it('Testa ao nao passar a propriedade quantity corretamente no patch', async function () {
+        const req = {
+            body:
+                {
+                    quantit: '',
+                },
+            params: { productId: 1, saleId: 1 },
+        };
+        const res = {
+            status: sinon.stub().returnsThis(),
+            json: sinon.stub(),
+        };
+        const next = sinon.stub();
+
+        await validationSales.validateUpdateSale(req, res, next);
+
+        expect(res.status).to.have.been.calledWith(400);
+        expect(res.json).to.have.been.calledWith({ message: '"quantity" is required' });
+    });
+
+    it('Testa ao passar um productId invalido no patch', async function () {
+        const req = {
+            body:
+                {
+                    quantity: 1,
+                },
+            params: { productId: 99, saleId: 1 },
+        };
+        const res = {
+            status: sinon.stub().returnsThis(),
+            json: sinon.stub(),
+        };
+        const next = sinon.stub();
+
+        sinon.stub(salesModel, 'getProductById').resolves(null);
+
+        await validationSales.validateUpdateSale(req, res, next);
+
+        expect(res.status).to.have.been.calledWith(404);
+        expect(res.json).to.have.been.calledWith({ message: 'Product not found in sale' });
+    });
+
     afterEach(function () {
         sinon.restore();
       });

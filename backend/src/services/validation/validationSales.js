@@ -40,8 +40,23 @@ const validateDeletedSale = async (req, res, next) => {
     next();
 };
 
+const validateUpdateSale = async (req, res, next) => {
+    const { saleId, productId } = req.params;
+    const { quantity } = req.body;
+
+    if (!quantity) return res.status(400).json({ message: '"quantity" is required' });
+
+    const product = await getProductById(productId);
+    if (product.status !== 200) {
+        return res.status(404).json({ message: 'Product not found in sale' }); 
+    }
+
+    next();
+};
+
 module.exports = {
     validateSales,
     validateProductId,
     validateDeletedSale,
+    validateUpdateSale,
 };

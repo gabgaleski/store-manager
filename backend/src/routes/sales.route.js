@@ -3,11 +3,17 @@ const { salesController } = require('../controllers');
 const {
     validateSales,
     validateProductId, 
-    validateDeletedSale } = require('../services/validation/validationSales');
+    validateDeletedSale,
+    validateUpdateSale } = require('../services/validation/validationSales');
 
 route.get('/', salesController.getAllProducts);
 route.get('/:id', salesController.getProductById);
 route.post('/', validateSales, validateProductId, salesController.createProduct);
 route.delete('/:id', validateDeletedSale, salesController.deleteProduct);
+route.put(
+'/:saleId/products/:productId/quantity',
+ validateUpdateSale,
+salesController.updateProductQuantity,
+);
 
 module.exports = route;
