@@ -176,6 +176,28 @@ describe('Testa as funções de validação da rota sales', function () {
         expect(res.json).to.have.been.calledWith({ message: '"quantity" must be greater than or equal to 1' });
     });
 
+    it('Testa se ocorre erro ao passar um saleId invalido no put', async function () {
+        const req = {
+            body:
+                {
+                    quantity: 1,
+                },
+            params: { productId: 1, saleId: 99 },
+        };
+        const res = {
+            status: sinon.stub().returnsThis(),
+            json: sinon.stub(),
+        };
+        const next = sinon.stub();
+
+        sinon.stub(salesModel, 'getSaleData').resolves(null);
+
+        await validationSales.validateUpdateSaleId(req, res, next);
+
+        expect(res.status).to.have.been.calledWith(404);
+        expect(res.json).to.have.been.calledWith({ message: 'Sale not found' });
+    });
+
     afterEach(function () {
         sinon.restore();
       });
