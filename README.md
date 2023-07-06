@@ -32,7 +32,4 @@ O Projeto tem como objetivo as construção de uma API Restful, utilizando arqui
 
 # :scroll: Nota
 
- 
-# :construction: To Implement :construction:
-
-- Icon no favoritar / desfavoritas
+ <img width="800" alt="Imagem pagina de login" src="./img/nota.png">
