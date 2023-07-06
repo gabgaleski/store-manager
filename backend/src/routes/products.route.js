@@ -4,6 +4,7 @@ const { validateProduct } = require('../services/validation/validationProductsUp
 const { validateIdDelete } = require('../services/validation/validationDeletId');
 
 route.get('/', productsController.getAllProducts);
+route.get('/search', productsController.searchProduct);
 route.get('/:id', productsController.getProductById);
 route.post('/', productsController.createProduct);
 route.put('/:id', validateProduct, productsController.updateProduct);
