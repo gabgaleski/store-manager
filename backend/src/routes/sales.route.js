@@ -4,7 +4,8 @@ const {
     validateSales,
     validateProductId, 
     validateDeletedSale,
-    validateUpdateSale } = require('../services/validation/validationSales');
+    validateUpdateSale,
+    validateUpdateSaleId } = require('../services/validation/validationSales');
 
 route.get('/', salesController.getAllProducts);
 route.get('/:id', salesController.getProductById);
@@ -12,7 +13,8 @@ route.post('/', validateSales, validateProductId, salesController.createProduct)
 route.delete('/:id', validateDeletedSale, salesController.deleteProduct);
 route.put(
 '/:saleId/products/:productId/quantity',
- validateUpdateSale,
+validateUpdateSale,
+validateUpdateSaleId,
 salesController.updateProductQuantity,
 );
 

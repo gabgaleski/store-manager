@@ -54,7 +54,7 @@ const getSaleData = async (id) => {
         'SELECT date FROM sales WHERE id = ?;',
         [id],
     );
-    return camelize(saleData.date);
+    return saleData;
 };
 
 const updateProductQuantity = async (saleId, productId, quantityObj) => {
@@ -67,7 +67,7 @@ const updateProductQuantity = async (saleId, productId, quantityObj) => {
     const saleData = await getSaleData(saleId);
 
     return {
-        date: saleData,
+        date: saleData.date,
         productId: Number(productId),
         quantity,
         saleId: Number(saleId),

@@ -1,4 +1,4 @@
-const { getProductById } = require('../sales.services');
+const { getProductById, getSaleData } = require('../sales.services');
 
 function validateSales(req, res, next) {
     const arrayObj = req.body;
@@ -41,15 +41,31 @@ const validateDeletedSale = async (req, res, next) => {
 };
 
 const validateUpdateSale = async (req, res, next) => {
-    const { saleId, productId } = req.params;
+    const { productId } = req.params;
     const { quantity } = req.body;
 
-    if (!quantity) return res.status(400).json({ message: '"quantity" is required' });
+    if (quantity !== 0 && !quantity) { 
+        return res.status(400).json({ message: '"quantity" is required' }); 
+    }
+
+    if (quantity <= 0) { 
+        return res.status(422).json({ message: '"quantity" must be greater than or equal to 1' }); 
+    }
 
     const product = await getProductById(productId);
+
     if (product.status !== 200) {
         return res.status(404).json({ message: 'Product not found in sale' }); 
     }
+
+    next();
+};
+
+const validateUpdateSaleId = async (req, res, next) => {
+    const { saleId } = req.params;
+
+    const date = await getSaleData(saleId);
+    if (!date) return res.status(404).json({ message: 'Sale not found' });
 
     next();
 };
@@ -59,4 +75,5 @@ module.exports = {
     validateProductId,
     validateDeletedSale,
     validateUpdateSale,
+    validateUpdateSaleId,
 };

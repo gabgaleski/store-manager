@@ -43,8 +43,7 @@ describe('Testa as funções de sales', function () {
         sinon.stub(connection, 'execute').resolves([salesMock]);
         const result = await salesModel.getSaleData(1);
 
-        expect(result).to.be.an('string');
-        expect(result).to.be.deep.equal('20230529T16:36:25000Z');
+        expect(result).to.be.an('object');
     });
 
     afterEach(function () {

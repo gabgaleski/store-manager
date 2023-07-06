@@ -112,7 +112,7 @@ describe('Testa as funções de validação da rota sales', function () {
         expect(res.json).to.have.been.calledWith({ message: 'Sale not found' });
     });
 
-    it('Testa ao nao passar a propriedade quantity corretamente no patch', async function () {
+    it('Testa ao nao passar a propriedade quantity corretamente no put', async function () {
         const req = {
             body:
                 {
@@ -132,7 +132,7 @@ describe('Testa as funções de validação da rota sales', function () {
         expect(res.json).to.have.been.calledWith({ message: '"quantity" is required' });
     });
 
-    it('Testa ao passar um productId invalido no patch', async function () {
+    it('Testa ao passar um productId invalido no put', async function () {
         const req = {
             body:
                 {
@@ -152,6 +152,28 @@ describe('Testa as funções de validação da rota sales', function () {
 
         expect(res.status).to.have.been.calledWith(404);
         expect(res.json).to.have.been.calledWith({ message: 'Product not found in sale' });
+    });
+
+    it('Testa se ocorre erro ao passar quantidade igual a zero no put', async function () {
+        const req = {
+            body:
+                {
+                    quantity: 0,
+                },
+            params: { productId: 1, saleId: 1 },
+        };
+        const res = {
+            status: sinon.stub().returnsThis(),
+            json: sinon.stub(),
+        };
+        const next = sinon.stub();
+
+        sinon.stub(salesModel, 'getProductById').resolves(null);
+
+        await validationSales.validateUpdateSale(req, res, next);
+
+        expect(res.status).to.have.been.calledWith(422);
+        expect(res.json).to.have.been.calledWith({ message: '"quantity" must be greater than or equal to 1' });
     });
 
     afterEach(function () {
